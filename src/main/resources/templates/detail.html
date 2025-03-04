@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{common :: head}"></head>
+  <body>
+    <nav th:replace="~{common :: navbar}"></nav>
+    <div th:if="${item == null}" class="container mt-5">
+    	<div class="alert alert-danger">お探しの案件は存在しません</div>
+    	<a class="btn btn-primary my-3" th:href="@{/contents}">案件リストに戻る</a>
+    </div>
+    
+    <div th:if="${content != null}" 
+         th:object="${content}"
+         class="container mt-5">
+      <div th:if="${status != null}" class="alert alert-success">
+        [[${status}]]
+      </div>  
+      <h1>[[*{name}]]</h1>
+      <a class="btn btn-primary my-3" th:href="@{/contents(page=${session.page})}">案件リストに戻る</a>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered table-hover detail-table">
+            <tbody>
+              <tr>
+                <th class="bg-secondary text-white">ID</th>
+                <td>[[*{id}]]</td>
+              </tr>
+                <tr>
+                <th class="bg-secondary text-white">ユーザー</th>
+                <td>[[*{user.name}]]</td>
+              </tr>
+              <tr>
+                <th class="bg-secondary text-white">区分</th>
+                <td>[[*{category.name}]]</td>
+              </tr>
+              <tr>
+                <th class="bg-secondary text-white">案件名</th>
+                <td>[[*{product.name}]]</td>
+              </tr>
+              <tr>
+                <th class="bg-secondary text-white">作業年月日</th>
+                <td>[[*{#temporals.format(registered, 'y年MM月dd日')}]]</td>
+              </tr>
+              <tr>
+                <th class="bg-secondary text-white">施工場所</th>
+                <td>[[*{place}]]</td>
+              </tr>
+              <tr>
+                <th class="bg-secondary text-white">金額</th>
+                <td>[[*{total.price}]]</td>
+              </tr>
+              <tr>
+              	<th class="bg-secondary text-white">備考</th>
+              	<td><pre class="note">[[*{note}]]</pre></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <a class="btn btn-warning" th:href="@{/contents/edit/{id}(id=*{id})}">編集</a>
+        <a id="delete" class="btn btn-danger" th:href="@{/contents/delete/{id}(id=*{id})}">削除</a>
+      </div>
+    </div>
+    <!-- /.container -->
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script>
+      document.getElementById('delete')
+        .addEventListener('click', e => {
+          if(!confirm('本当に削除しますか？')) {
+            e.preventDefault();
+            return;
+          }
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.app.mapper.ContentMapper">
+
+
+	<resultMap id="contentMap" type="Content" autoMapping="true">
+		<association property="category">
+			<id property="id" column="category_id" />
+			<result property="name" column="category_name" />
+		</association>
+	</resultMap>
+
+	<!-- contentsテーブルから全データを取得 -->
+	<select id="selectAll"
+		resultType="com.example.app.domain.Content">
+		SELECT * FROM contents
+	</select>
+
+	<!-- ID に基づいてデータを1件取得 -->
+	<select id="selectById" parameterType="Integer"
+		resultType="com.example.app.domain.Content">
+		SELECT * FROM contents WHERE id = #{id}
+	</select>
+	
+	<!-- ページ分割取得 -->
+	<select id="selectLimited"
+		resultType="com.example.app.domain.ContentMap">
+		SELECT 
+		  counts.id, category.name, counts.product.name, counts.work.date,
+		  counts.place, counts.total_price, counts.note, counts.image_plant1,
+		  counts.image_plant2, counts.image_plant3
+		JOIN categories
+		  ON counts.category_id = category_id
+		ORDER BY registered DESC  
+		LIMIT #{limit}, #{offset}
+	</select>
+	
+	<select id="count" resultType="long">
+        SELECT COUNT(*) FROM contents
+    </select>
+
+	<!-- データの追加 -->
+	<insert id="add"
+		parameterType="com.example.app.domain.Content">
+		INSERT INTO contents
+		(id, user_id, category_id, product_name, work_date, place, total_price,
+		note, image_plant1, image_plant2, image_plant3)
+		VALUES
+		(#{id}, #{userId},#{categoryId}, #{productName}, #{workDate}, #{place},
+		#{totalPrice}, #{note}, #{image_plant1}, #{image_plant2},#{image_plant3})
+	</insert>
+
+	<!-- データの更新 -->
+	<update id="update" parameterType="com.example.app.domain.Content">
+		UPDATE contents
+		SET
+		user_id = #{userId}, category_id = #{categoryId}, product_name =#{productName},
+		work_date = #{workDate}, place = #{place}, total_price = #{totalPrice}, note =#{note},
+		image_plant1 = #{image_plant1}, image_plant2 = #{image_plant2}, image_plant3 =#{image_plant3}
+		WHERE id = #{id}
+	</update>
+
+	<!-- データの削除 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM contents WHERE id = #{id}
+	</delete>
+
+
+</mapper>
