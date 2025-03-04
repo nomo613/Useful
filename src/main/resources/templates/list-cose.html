@@ -23,12 +23,12 @@
             </thead>
             <tbody>
               <tr class="align-middle"
-                  th:each="item : ${itemList}"
-                  th:object="${item}">
+                  th:each="content : ${contentList}"
+                  th:object="${content}">
                 <td>[[*{id}]]</td>
                 <td>[[*{category.id}]]</td>
                 <td>[[*{product.name}]]</td>
-                <td>[[*{user.id}]]</td>
+                <td>[[*{member.id}]]</td>
                 <td><a class="btn btn-warning" th:href="@{/contents/detail/{id}(id=*{id})}">詳細</a></td>
               </tr>
             </tbody>

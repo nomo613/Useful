@@ -12,10 +12,10 @@
                 
                 
             <div class="form-group mb-3">
-              <label for="formUser">担当者</label>
-              <select th:field="*{user.id}" id="formUser" class="form-control">
-                <option th:each="loc : ${userList}" 
-                        th:value="${user.id}">[[${user.name}]]</option>
+              <label for="formMember">担当者</label>
+              <select th:field="*{member.id}" id="formMember" class="form-control">
+                <option th:each="loc : ${memberList}" 
+                        th:value="${member.id}">[[${member.name}]]</option>
               </select>
             </div>
             
@@ -88,7 +88,7 @@
             
             <div class="form-group">
               <input type="submit" class="btn btn-primary" value="保存" />
-              <a th:href="@{/items/detail/{id}(id=*{id})}" class="btn btn-secondary">キャンセル</a>
+              <a th:href="@{/contents/detail/{id}(id=*{id})}" class="btn btn-secondary">キャンセル</a>
             </div>
           </form>
         </div>

@@ -11,10 +11,10 @@
                 th:object="${content}">
                 
             <div class="form-group mb-3">
-              <label for="formUser">担当者</label>
-              <select th:field="*{user.id}" id="formUser" class="form-control">
-                <option th:each="user : ${userList}" 
-                        th:value="${user.id}">[[${user.name}]]</option>
+              <label for="formMember">担当者</label>
+              <select th:field="*{member.id}" id="formMember" class="form-control">
+                <option th:each="member : ${memberList}" 
+                        th:value="${member.id}">[[${member.name}]]</option>
               </select>
             </div>              
                 

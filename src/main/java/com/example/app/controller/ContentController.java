@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/contents")
+@RequestMapping("/content")
 public class ContentController {
 	
 	private static final int NUM_PER_PAGE = 10;
@@ -27,29 +27,32 @@ public class ContentController {
     private final ContentService service;
     private final HttpSession session;
 
-    @GetMapping
+    @GetMapping("/list")
     public String showContentList(
-			@RequestParam(name = "page", defaultValue = "1") Integer page,
+			@RequestParam(name="page", defaultValue="1") Integer page,
 			Model model) {
+    	
+    	// 詳細・追加・編集ページから戻る際に利用
+    	session.setAttribute("page", page);
+    	
 		model.addAttribute("contentList", service.getContentByPage(page, NUM_PER_PAGE));
 		model.addAttribute("page", page);
-		session.setAttribute("page", page);
 		model.addAttribute("totalPages", service.getTotalPages(NUM_PER_PAGE));
-		return "list";
+		return "list-cose";
 	}
 	
 	@GetMapping("/detail/{id}")
 	public String showContentDetail(@PathVariable Integer id,
 			Model model) {
 		model.addAttribute("content", service.getContentById(id));
-		return "detail";
+		return "detail-cose";
 	}
 	
 	@GetMapping("/add")
 	public String showAddForm(Model model) {
 		model.addAttribute("content", new Content());
-		model.addAttribute("locationList", service.getContentCategories());
-		return "save";
+		model.addAttribute("categoyrList", service.getContentCategories());
+		return "save-cose";
 	}
 	
 	@PostMapping("/add")
@@ -58,8 +61,8 @@ public class ContentController {
 			Model model,
 			RedirectAttributes ra) {
 		if(errors.hasErrors()) {
-			model.addAttribute("locationList", service.getContentCategories());
-			return "save";
+			model.addAttribute("categoyrList", service.getContentCategories());
+			return "save-cose";
 		}
 		
 		service.addContent(content);
@@ -70,9 +73,9 @@ public class ContentController {
 	@GetMapping("/edit/{id}")
 	public String showEditForm(@PathVariable Integer id,
 			Model model) {
-		model.addAttribute("item", service.getContentById(id));
-		model.addAttribute("locationList", service.getContentCategories());
-		return "edit";
+		model.addAttribute("content", service.getContentById(id));
+		model.addAttribute("categoyrList", service.getContentCategories());
+		return "edit-cose";
 	}
 	
 	@PostMapping("/edit/{id}")
@@ -82,8 +85,8 @@ public class ContentController {
 			Model model,
 			RedirectAttributes ra) {
 		if(errors.hasErrors()) {
-			model.addAttribute("locationList", service.getContentCategories());
-			return "edit";
+			model.addAttribute("categoyrList", service.getContentCategories());
+			return "edit-cose";
 		}
 		
 		service.editContent(content);

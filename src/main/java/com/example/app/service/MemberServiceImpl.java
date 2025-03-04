@@ -1,5 +1,6 @@
 package com.example.app.service;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.example.app.domain.Member;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements MemberService{
+	
+	
 
 	@Override
 	public Member getAuthenticatedMember(String loginId, String loginPass) {
