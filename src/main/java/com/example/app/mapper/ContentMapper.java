@@ -16,6 +16,7 @@ public interface ContentMapper {
 	
 	// ページ分割機能  offset → 取得開始位置 limit → 取得する件数
 	List<Content> selectLimited(@Param("offset") int offset, @Param("limit") int limit);
+	
 	Long count();
 	
 	void insert(Content content);  // 追加する

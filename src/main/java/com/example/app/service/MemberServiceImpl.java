@@ -4,6 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.example.app.domain.Member;
+import com.example.app.mapper.MemberMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -11,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class MemberServiceImpl implements MemberService{
 	
-	
+	private final MemberMapper mapper;
 
 	@Override
 	public Member getAuthenticatedMember(String loginId, String loginPass) {

@@ -10,7 +10,7 @@ import lombok.Data;
 public class Content {
 	
 	private Integer id;
-	private Integer userId;
+	private Integer memberId;
 	private Integer categoryId;
 	
 	@NotBlank
@@ -20,8 +20,8 @@ public class Content {
 	private String place;
 	private String totalPrice;
 	private String note;
-	private String imageFlower1;
-	private String imageFlower2;
-	private String imageFlower3;
+	private String imagePlant1;
+	private String imagePlant2;
+	private String imagePlant3;
 
 }

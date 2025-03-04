@@ -43,7 +43,7 @@ public class AuthController {
 		
 		session.setAttribute("authMember", authMember);				
 		ra.addFlashAttribute("status", "ログインしました");
-		return "redirect:/items";
+		return "redirect:/contents";
 	}
 	
 	@GetMapping("/logout")

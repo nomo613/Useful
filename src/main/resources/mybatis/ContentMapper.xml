@@ -21,44 +21,70 @@
 		resultType="com.example.app.domain.Content">
 		SELECT * FROM contents WHERE id = #{id}
 	</select>
-	
+
 	<!-- ページ分割取得 -->
 	<select id="selectLimited"
 		resultType="com.example.app.domain.ContentMap">
-		SELECT 
-		  counts.id, category.name, counts.product.name, counts.work.date,
-		  counts.place, counts.total_price, counts.note, counts.image_plant1,
-		  counts.image_plant2, counts.image_plant3
-		JOIN categories
-		  ON counts.category_id = category_id
-		ORDER BY registered DESC  
-		LIMIT #{limit}, #{offset}
+		SELECT
+		c.id,
+		m.name AS member_name,
+		ca.name AS category_name,
+		c.product_name,
+		c.work_date,
+		c.place,
+		c.total_price,
+		c.note,
+		c.image_plant1,
+		c.image_plant2,
+		c.image_plant3
+		FROM contents c
+		LEFT JOIN members m ON c.member_id = m.id
+		LEFT JOIN categories ca ON c.category_id = ca.id
+		ORDER BY c.id DESC
+		LIMIT #{offset} OFFSET #{limit}
 	</select>
-	
+
+
 	<select id="count" resultType="long">
-        SELECT COUNT(*) FROM contents
-    </select>
+		SELECT COUNT(*) FROM contents
+	</select>
+
 
 	<!-- データの追加 -->
-	<insert id="add"
-		parameterType="com.example.app.domain.Content">
-		INSERT INTO contents
-		(id, user_id, category_id, product_name, work_date, place, total_price,
-		note, image_plant1, image_plant2, image_plant3)
-		VALUES
-		(#{id}, #{userId},#{categoryId}, #{productName}, #{workDate}, #{place},
-		#{totalPrice}, #{note}, #{image_plant1}, #{image_plant2},#{image_plant3})
+	<insert id="add" parameterType="com.example.app.domain.Content">
+		INSERT INTO contents (
+		member_id,
+		category_id,
+		product_name,
+		work_date, place,
+		total_price,
+		note,
+		image_plant1,
+		image_plant2,
+		image_plant3
+		) VALUES (
+		#{memberId}, #{categoryId}, #{productName}, #{WorkDate}, #{place},
+		#{totalPrice}, #{note}, #{imagePlant1}, #{imagePlant2}, #{imagePlant3}
+		)
 	</insert>
 
+
 	<!-- データの更新 -->
-	<update id="update" parameterType="com.example.app.domain.Content">
-		UPDATE contents
-		SET
-		user_id = #{userId}, category_id = #{categoryId}, product_name =#{productName},
-		work_date = #{workDate}, place = #{place}, total_price = #{totalPrice}, note =#{note},
-		image_plant1 = #{image_plant1}, image_plant2 = #{image_plant2}, image_plant3 =#{image_plant3}
-		WHERE id = #{id}
-	</update>
+  <update id="update" parameterType="com.example.app.domain.Content">
+    UPDATE contents
+    SET 
+        member_id = #{memberId},
+        category_id = #{categoryId},
+        product_name = #{productName},
+        work_date = #{workDate},
+        place = #{place},
+        total_price = #{totalPrice},
+        note = #{note},
+        image_plant1 = #{imagePlant1},
+        image_plant2 = #{imagePlant2},
+        image_plant3 = #{imagePlant3}
+    WHERE id = #{id}
+  </update>
 
 	<!-- データの削除 -->
 	<delete id="delete" parameterType="int">
