@@ -51,7 +51,7 @@
 
 
 	<!-- データの追加 -->
-	<insert id="add" parameterType="com.example.app.domain.Content">
+	<insert id="insert" parameterType="com.example.app.domain.Content">
 		INSERT INTO contents (
 		member_id,
 		category_id,
@@ -63,7 +63,7 @@
 		image_plant2,
 		image_plant3
 		) VALUES (
-		#{memberId}, #{categoryId}, #{productName}, #{WorkDate}, #{place},
+		#{memberId}, #{categoryId}, #{productName}, NOW(), #{place},
 		#{totalPrice}, #{note}, #{imagePlant1}, #{imagePlant2}, #{imagePlant3}
 		)
 	</insert>

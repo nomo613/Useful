@@ -24,7 +24,7 @@ public class ContentController {
 	
 	private static final int NUM_PER_PAGE = 10;
 	
-    private final ContentService service;
+	private final ContentService service;
     private final HttpSession session;
 
     @GetMapping("/list")
