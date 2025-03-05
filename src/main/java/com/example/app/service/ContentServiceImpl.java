@@ -76,6 +76,22 @@ public class ContentServiceImpl implements ContentService{
 		return categoryMapper.selectAll();
 	}
 
+	@Override
+	public boolean isExistingContent(String productName) {
+		Content material = contentMapper.selectByName(productName);
+		if(material != null) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public void deleteContentById(Integer id) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+
 
 }
 

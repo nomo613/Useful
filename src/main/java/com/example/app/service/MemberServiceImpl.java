@@ -58,8 +58,8 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public boolean isExsitingMember(String loginId) {
-		Member student = memberMapper.selectByLoginId(loginId);
-		if(student != null) {
+		Member member = memberMapper.selectByLoginId(loginId);
+		if(member != null) {
 			return true;
 		}
 		return false;

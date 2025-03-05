@@ -26,6 +26,9 @@ public interface ContentService {
 
 	List<Category> getContentCategories();
 
+	boolean isExistingContent(String productName);
+
+	void deleteContentById(Integer id);
 
 
 

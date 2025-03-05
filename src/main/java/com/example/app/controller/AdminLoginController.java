@@ -5,10 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.app.domain.Admin;
 import com.example.app.domain.Login;
-import com.example.app.domain.Member;
 import com.example.app.login.LoginAuthority;
 import com.example.app.login.LoginStatus;
 import com.example.app.service.AdminService;
@@ -18,42 +19,42 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequestMapping("/admin")
 @RequiredArgsConstructor
-public class MemberLoginController {
-	
-	private final AdminService memberService;
+public class AdminLoginController {
+
+	private final AdminService service;
 	private final HttpSession session;
-	
+
 	@GetMapping("/login")
 	public String login(Model model) {
 		model.addAttribute(new Login());
-		return "login-member";
+		return "login-admin";
 	}
 
 	@PostMapping("/login")
 	public String login(
 			@Valid Login login,
-			Errors errors) {
+			Errors errors) throws Exception {
 		if(errors.hasErrors()) {
-			return "login-member";
+			return "login-admin";
 		}
-        
-		// 正しいIDとパスワードの組み合わせか確認
-		Member member = memberService.getMemberByLoginId(login.getLoginId());
-		if(member == null || !login.isCorrectPassword(member.getLoginPass())) {
+
+		Admin admin = service.getAdminByLoginId(login.getLoginId());
+		if(admin == null || !login.isCorrectPassword(admin.getLoginPass())) {
 			errors.rejectValue("loginId", "error.incorrect_id_or_password");
-			return "login-member";
+			return "login-admin";
 		}
 
 		// セッションに認証情報を格納
 		LoginStatus loginStatus = LoginStatus.builder()
-				.id(member.getId())
-				.name(member.getName())
-				.loginId(member.getLoginId())
-				.authority(LoginAuthority.MEMBER)
+				.id(admin.getId())
+				.name(admin.getName())
+				.loginId(admin.getLoginId())
+				.authority(LoginAuthority.ADMIN)
 				.build();
 		session.setAttribute("loginStatus", loginStatus);
-		return "redirect:/search";
+		return "redirect:/content/list";
 	}
 
 	@GetMapping("/logout")
@@ -61,7 +62,6 @@ public class MemberLoginController {
 			RedirectAttributes redirectAttributes) {
 		session.removeAttribute("loginStatus");
 		redirectAttributes.addFlashAttribute("message", "ログアウトしました。");
-		return "redirect:/login";
+		return "redirect:/admin/login";
 	}
 }
-
