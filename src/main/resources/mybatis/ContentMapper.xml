@@ -2,29 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.app.mapper.ContentMapper">
 
-
 	<resultMap id="contentMap" type="Content" autoMapping="true">
-		<association property="category">
+		<association property="category" javaType="Category">
 			<id property="id" column="category_id" />
 			<result property="name" column="category_name" />
 		</association>
 	</resultMap>
 
-	<!-- contentsテーブルから全データを取得 -->
-	<select id="selectAll"
-		resultType="com.example.app.domain.Content">
-		SELECT * FROM contents
+	<select id="selectAll" resultMap="contentMap">
+		SELECT
+            c.id,
+            c.category_id,
+            ca.name AS category_name,
+            c.product_name,
+            c.status
+        FROM contents c
+        JOIN categories ca ON c.category_id = ca.id
 	</select>
+
+
+	<!-- 商品名でデータ取得 -->
+    <select id="selectByProductName" parameterType="java.lang.String" resultMap="contentMap">
+        SELECT
+		c.id,
+		m.name AS member_name,
+		ca.name AS category_name,
+		c.product_name,
+		c.work_date,
+		c.place,
+		c.total_price,
+		c.note,
+		c.image_plant1,
+		c.image_plant2,
+		c.image_plant3,
+		c.status
+		FROM contents c
+		LEFT JOIN membersm ON c.member_id = m.id
+		LEFT JOIN categories ca ON c.category_id = ca.id
+	 WHERE c.product_name = #{productName}
+    </select>
+
 
 	<!-- ID に基づいてデータを1件取得 -->
-	<select id="selectById" parameterType="Integer"
-		resultType="com.example.app.domain.Content">
-		SELECT * FROM contents WHERE id = #{id}
-	</select>
-
-	<!-- ページ分割取得 -->
-	<select id="selectLimited"
-		resultType="com.example.app.domain.ContentMap">
+	<select id="selectById" parameterType="int" resultMap="contentMap">
 		SELECT
 		c.id,
 		m.name AS member_name,
@@ -36,60 +56,72 @@
 		c.note,
 		c.image_plant1,
 		c.image_plant2,
-		c.image_plant3
+		c.image_plant3,
+		c.status
 		FROM contents c
 		LEFT JOIN members m ON c.member_id = m.id
 		LEFT JOIN categories ca ON c.category_id = ca.id
-		ORDER BY c.id DESC
-		LIMIT #{offset} OFFSET #{limit}
+		WHERE c.id = #{id}
 	</select>
 
+	<!-- データの取得 ※ffset と limit を指定することで、必要な範囲のデータを取得 -->
+	<select id="selectLimited" resultMap="contentMap">
+		SELECT
+		c.id,
+		c.member_id,
+		c.category_id,
+		ca.name AS category_name,
+		c.product_name,
+		c.status
+		FROM contents c
+		JOIN categories ca
+		  ON c.category_id = category.ca.id
+		LIMIT #{offset}, #{limit}
+	</select>
 
+	<!-- ページネーション 件数取得 -->
 	<select id="count" resultType="long">
 		SELECT COUNT(*) FROM contents
 	</select>
 
-
 	<!-- データの追加 -->
-	<insert id="insert" parameterType="com.example.app.domain.Content">
+	<insert id="insert"
+		parameterType="com.example.app.domain.Content" useGeneratedKeys="true">
 		INSERT INTO contents (
-		member_id,
-		category_id,
-		product_name,
-		work_date, place,
-		total_price,
-		note,
-		image_plant1,
-		image_plant2,
-		image_plant3
+		member_id, category_id, product_name, work_date, place,
+		total_price, note, image_plant1, image_plant2, image_plant3, status
 		) VALUES (
-		#{memberId}, #{categoryId}, #{productName}, NOW(), #{place},
-		#{totalPrice}, #{note}, #{imagePlant1}, #{imagePlant2}, #{imagePlant3}
+		#{member.id}, #{category.id}, #{productName}, #{workDate}, #{place},
+		#{totalPrice}, #{note}, #{imagePlant1}, #{imagePlant2},
+		#{imagePlant3}, #{status}
 		)
 	</insert>
 
+	<!-- データの更新　※更新データは #{} を使ってバインド -->
+	<update id="update"
+		parameterType="com.example.app.domain.Content">
+		UPDATE contents
+		SET
+		member_id = #{member.id}, category_id = #{category.id}, product_name =
+		#{productName},
+		work_date = #{workDate}, place = #{place}, total_price = #{totalPrice},
+		note = #{note}, image_plant1 = #{imagePlant1}, image_plant2 =
+		#{imagePlant2},
+		image_plant3 = #{imagePlant3}
+		WHERE id = #{id}
+	</update>
 
-	<!-- データの更新 -->
-  <update id="update" parameterType="com.example.app.domain.Content">
-    UPDATE contents
-    SET 
-        member_id = #{memberId},
-        category_id = #{categoryId},
-        product_name = #{productName},
-        work_date = #{workDate},
-        place = #{place},
-        total_price = #{totalPrice},
-        note = #{note},
-        image_plant1 = #{imagePlant1},
-        image_plant2 = #{imagePlant2},
-        image_plant3 = #{imagePlant3}
-    WHERE id = #{id}
-  </update>
+	<update id="setDeleteById" parameterType="int">
+		UPDATE contents SET
+		status = 'DEL'
+		WHERE id = #{id}
+	</update>
 
-	<!-- データの削除 -->
-	<delete id="delete" parameterType="int">
-		DELETE FROM contents WHERE id = #{id}
-	</delete>
 
+	<!-- データの件数取得 -->
+	<select id="getcountActive" resultType="long">
+		SELECT COUNT(*) FROM
+		content WHERE status = 'ACT'
+	</select>
 
 </mapper>

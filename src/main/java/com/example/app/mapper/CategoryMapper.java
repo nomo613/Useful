@@ -9,6 +9,7 @@ import com.example.app.domain.Category;
 @Mapper
 public interface CategoryMapper {
 	
-	List<Category>selectAll();
+	List<Category>selectAll() throws Exception;
+
 
 }

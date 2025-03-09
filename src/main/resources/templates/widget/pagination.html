@@ -11,7 +11,7 @@
 			<li th:case="1" class="page-item disabled">
 				<a class="page-link" href="">&laquo;</a>
 			</li>
-			<li th:case="*" class="page-item">
+			<li th:case="*" class="page-content">
 				<a class="page-link" th:href="@{/{baseUrl}(baseUrl=${baseUrl}, page=${page - 1})}">&laquo;</a>
 			</li>
 		</th:block>
@@ -19,10 +19,10 @@
 		<!-- ページ番号 -->
 		<th:block th:each="index : ${#numbers.sequence(1, totalPages)}">
 			<th:block th:switch="${index}">
-				<li th:case="${page}" class="page-item active">
+				<li th:case="${page}" class="page-content active">
 					<a class="page-link" href="">[[${index}]]</a>
 				</li>
-				<li th:case="*" class="page-item">
+				<li th:case="*" class="page-content">
 					<a class="page-link" th:href="@{/{baseUrl}(baseUrl=${baseUrl}, page=${index})}">[[${index}]]</a>
 				</li>
 			</th:block>
@@ -30,7 +30,7 @@
 
 		<!-- 次のページへ -->
 		<th:block th:switch="${page}">
-			<li th:case="${totalPages}" class="page-item disabled">
+			<li th:case="${totalPages}" class="page-content disabled">
 				<a class="page-link" href="">&raquo;</a>
 			</li>
 			<li th:case="*" class="page-item">

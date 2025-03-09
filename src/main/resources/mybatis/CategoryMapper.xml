@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.app.mapper.CategoryMapper">
     
-    <select id="selectAll" resultType="com.example.app.domain.Category">
-        SELECT * FROM categories
-    </select>
+  <select id="selectAll" resultType="Category">
+		SELECT * FROM nategory ORDER BY id
+	</select>
+
 
 </mapper>

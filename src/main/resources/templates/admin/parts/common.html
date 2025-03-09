@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
 <link th:href="@{/css/style.css}" rel="stylesheet" />
-<title>Usefulシステム</title>
+<title>便利なシステム</title>
 </head>
 <body>
 
 <header th:fragment="header()">
   <nav class="navbar navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" th:href="@{/content/list}">Usefulシステム</a>
+      <a class="navbar-brand" th:href="@{/admin/content/list}">Usefulシステム</a>
       <ul class="navbar-nav">
-        <li class="nav-item">[[${session.loginStatus.name}]] [<a th:href="@{/admin/logout}">ログアウト</a>]</li>
+        <li class="nav-content">nomo [<a th:href="@{/admin/logout}">ログアウト</a>]</li>
       </ul>
     </div>
   </nav>

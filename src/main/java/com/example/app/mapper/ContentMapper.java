@@ -10,22 +10,23 @@ import com.example.app.domain.Content;
 @Mapper
 public interface ContentMapper {
 	
-	List <Content> selectAll();   // 全データを取得
+	List <Content> selectAll() throws Exception;       // 全データを取得
 	
-	Content selectById(int id); // idに基づいてデータを1件習得
+	Content selectById(Integer id) throws Exception;    // idに基づいてデータを1件習得
+	Content selectByProdactName(String prodactName) throws Exception;
 	
-	// ページ分割機能  offset → 取得開始位置 limit → 取得する件数
-	List<Content> selectLimited(@Param("offset") int offset, @Param("limit") int limit);
+	void setDeleteById(Integer id) throws Exception;   // 削除する
 	
-	Long count();
+	void insert(Content content) throws Exception;     // 追加する
 	
-	void insert(Content content);  // 追加する
+	void update(Content content) throws Exception;     // 更新する
 	
-	void update(Content content);  // 更新する
-	
-	void delete(int id);        // 削除する
-	
+                                                       // ページ分割機能  offset → 取得開始位置 limit → 取得する件数
+    List<Content> selectLimited(@Param("offset") int offset, @Param("limit") int limit) throws Exception;
 
+    Long count() throws Exception;
 
+	long getcountActive()throws Exception;
 
+	Content selectByProductName(String productName)throws Exception;
 }

@@ -8,28 +8,22 @@ import com.example.app.domain.Content;
 
 public interface ContentService {
 
-    List <Content>getAllContents() ; // テーブルの全データを取得
+    List <Content>getContentList() throws Exception;          // テーブルの全データを取得
 
-	Content getContentById(Integer id); // 指定した id 取得
+	Content getContentById(Integer id) throws Exception;;     // 指定した id 取得
 	
-	List<Content> getContentByPage(int page, int numPerPage) ; // ページ分割機能用  
+	void deleteContentById(Integer id) throws Exception;      // 指定した id 削除	
 
-	void addContent(Content content) ; // 追加
+	void addContent(Content content) throws Exception;        // 追加
 
-	void editContent(Content content); // 編集
+	void editContent(Content content) throws Exception;       // 編集
 
-	void deleteContent(Integer id); // 削除
+	int getTotalPages(int numPerPage) throws Exception;       // ページネーション用のメソッドで、総ページ数を取得
 
-	int getTotalPages(int numPerPage); // ページネーション用のメソッドで、総ページ数を取得
+	List<Content> getContentListPerPage(int page, int numPerPage) throws Exception; // ページ分割機能用  
 
-	List<Category> getCategoryList();
+	List<Category> getCategoryList() throws Exception;
 
-	List<Category> getContentCategories();
-
-	boolean isExistingContent(String productName);
-
-	void deleteContentById(Integer id);
-
-
+	boolean isExsitingContent(String productName) throws Exception;
 
 }

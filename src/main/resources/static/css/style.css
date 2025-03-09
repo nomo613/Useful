@@ -9,6 +9,16 @@
   max-width: 330px;
   padding: 15px;
   margin: auto;
+  font-family: "メイリオ",'ＭＳ Ｐ明朝','MS PMincho',sans-serif;
+}
+
+.h4 {
+ font-family: "メイリオ",'ＭＳ Ｐ, 明朝','MS PMincho',sans-serif;
+}
+
+.container {
+	padding: 50px;
+	background-color: rgb(228, 228, 228);
 }
 
 .form-signin .checkbox {

@@ -1,5 +1,6 @@
 package com.example.app.domain;
 
+import java.lang.reflect.Member;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotBlank;
@@ -10,8 +11,8 @@ import lombok.Data;
 public class Content {
 	
 	private Integer id;
-	private Integer memberId;
-	private Integer categoryId;
+	private Member member;
+	private Category category;
 	
 	@NotBlank
 	@Size(max = 50)
@@ -23,5 +24,6 @@ public class Content {
 	private String imagePlant1;
 	private String imagePlant2;
 	private String imagePlant3;
+	private String status;
 
 }
