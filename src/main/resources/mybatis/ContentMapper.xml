@@ -123,5 +123,10 @@
 		SELECT COUNT(*) FROM
 		content WHERE status = 'ACT'
 	</select>
+	
+	<select id="getcountActive" resultType="int">
+    SELECT COUNT(*) FROM content WHERE status = 'active'
+    </select>
+	
 
 </mapper>

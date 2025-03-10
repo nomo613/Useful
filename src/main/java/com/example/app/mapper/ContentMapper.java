@@ -26,7 +26,8 @@ public interface ContentMapper {
 
     Long count() throws Exception;
 
-	long getcountActive()throws Exception;
+	int getcountActive()throws Exception;
 
 	Content selectByProductName(String productName)throws Exception;
+
 }
